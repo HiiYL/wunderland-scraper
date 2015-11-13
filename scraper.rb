@@ -43,6 +43,7 @@ class Forecast
      'rain_amount' => @rain_amount, 'date' => @date }.to_json
   end
 end
+file_output =""
 agent = Mechanize.new
 ARGV.each do |arg|
   date = arg
@@ -59,5 +60,8 @@ ARGV.each do |arg|
   forecast.rain_amount = day_table.search(".wx-value").last.text.delete("\n \t")
   forecast.date = date
   print forecast.to_json
+  file_output << forecast.to_json << "\n"
   puts
 end
+File.write("output.txt", file_output)
+puts "Saved to output.txt"
